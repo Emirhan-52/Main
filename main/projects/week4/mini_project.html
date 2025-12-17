@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Project Presentation - Smart To-Do List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Title Section */
+        .title-section {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .title-section h1 {
+            color: #667eea;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .title-section .subtitle {
+            color: #764ba2;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .title-section .meta {
+            color: #666;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        /* Content Sections */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section-card {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.8s ease;
+            border-left: 6px solid #667eea;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section-card:nth-child(even) {
+            border-left-color: #764ba2;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .section-icon {
+            font-size: 2.5rem;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .section-card:nth-child(even) .section-title {
+            color: #764ba2;
+        }
+
+        .section-content {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .section-content p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .section-content ul {
+            margin-left: 30px;
+            margin-top: 15px;
+        }
+
+        .section-content li {
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 3px solid #667eea;
+            padding-left: 15px;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea10, #764ba210);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .highlight-box strong {
+            color: #667eea;
+        }
+
+        /* Two Column Layout for specific sections */
+        .two-column {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .column-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .column-item h4 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .column-item p {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        /* Technology Stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tech-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tech-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .tech-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .tech-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            color: #667eea;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Impact Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .metric-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Screenshots Section */
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 60px;
+            text-align: center;
+            color: #667eea;
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .title-section h1 {
+                font-size: 2rem;
+            }
+
+            .title-section .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-card {
+                padding: 25px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .two-column,
+            .tech-grid,
+            .features-grid,
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Title Section -->
+        <div class="title-section">
+            <div class="project-icon">✅</div>
+            <h1>Smart To-Do List</h1>
+            <p class="subtitle">A Modern Task Management Web Application</p>
+            <div class="meta">
+                <strong>Developed by:</strong> Emirhan Orçun Bayar<br>
+                <strong>Student ID:</strong> 25-657<br>
+                <strong>Course:</strong> Internet and Web Basics<br>
+                <strong>Week 4 Assignment:</strong> 05.11.25
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Problem Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-icon">🎯</div>
+                    <h2 class="section-title">Problem Statement</h2>
+                </div>
+                <div class="section-content">
+                    <p>
+                        In today's fast-paced world, individuals often struggle with managing their daily tasks effectively. 
+                        Traditional paper-based to-do lists can be easily lost or forgotten, while many digital solutions are 
+                        either too complex, require account creation, or lack essential features like reminders and persistent storage.
+                    </p>
+                    <div class="highlight-box">
+                        <strong>Key Challenges Identified:</strong>
+                        <ul>
+                            <li>Difficulty in organizing and prioritizing daily tasks</li>
+                            <li>Lack of visual feedback on task completion progress</li>
+                            <li>No reminders for time-sensitive tasks</li>
+                            <li>Data loss when switching devices or closing browsers</li>
+                            <li>Complex interfaces that hinder user adoption</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purpose Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-icon">💡</div>
+                    <h2 class="section-title">Project Purpose</h2>
+                </div>
+                <div class="section-content">
+                    <p>
+                        The Smart To-Do List project aims to provide a simple, intuitive, and feature-rich task management 
+                        solution that helps users organize their daily activities efficiently. The application focuses on 
+                        delivering a seamless user experience without requiring any account creation or backend infrastructure.
+                    </p>
+                    <div class="two-column">
+                        <div class="column-item">
+                            <h4>Primary Goal</h4>
+                            <p>Create an accessible, user-friendly task management tool that works entirely in the browser 
+                            and persists data locally, ensuring privacy and convenience.</p>
+                        </div>
+                        <div class="column-item">
+                            <h4>Learning Objective</h4>
+                            <p>Demonstrate proficiency in HTML5, CSS3, and JavaScript by building a practical web application 
+                            with real-world functionality and modern design principles.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Objectives Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-icon">🎲</div>
+                    <h2 class="section-title">Project Objectives</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>Technical Objectives:</strong></p>
+                    <ul>
+                        <li>✅ Implement CRUD operations (Create, Read, Update, Delete) for tasks</li>
+                        <li>✅ Utilize HTML5 LocalStorage API for data persistence</li>
+                        <li>✅ Design a responsive interface using CSS3 and Flexbox/Grid</li>
+                        <li>✅ Create interactive UI elements with vanilla JavaScript</li>
+                        <li>✅ Implement filtering functionality (All, Active, Completed tasks)</li>
+                    </ul>
+
+                    <p style="margin-top: 20px;"><strong>Functional Objectives:</strong></p>
+                    <ul>
+                        <li>✅ Allow users to add tasks with optional due dates and times</li>
+                        <li>✅ Enable task completion marking with visual feedback</li>
+                        <li>✅ Provide task editing and deletion capabilities</li>
+                        <li>✅ Display real-time task count and progress</li>
+                        <li>✅ Implement reminder notifications for time-sensitive tasks</li>
+                        <li>✅ Ensure data persistence across browser sessions</li>
+                    </ul>
+
+                    <p style="margin-top: 20px;"><strong>UX/UI Objectives:</strong></p>
+                    <ul>
+                        <li>✅ Design an intuitive and clean user interface</li>
+                        <li>✅ Implement smooth animations and transitions</li>
+                        <li>✅ Ensure mobile responsiveness and cross-browser compatibility</li>
+                        <li>✅ Follow modern design trends (gradients, shadows, rounded corners)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-icon">⚡</div>
+                    <h2 class="section-title">Key Features</h2>
+                </div>
+                <div class="section-content">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">➕</div>
+                            <div class="feature-title">Add Tasks</div>
+                            <div class="feature-desc">Quickly create new tasks with optional due date and time settings</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">✅</div>
+                            <div class="feature-title">Mark Complete</div>
+                            <div class="feature-desc">Check off tasks as completed with visual strike-through effect</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">✏️</div>
+                            <div class="feature-title">Edit Tasks</div>
+                            <div class="feature-desc">Update task details, dates, and times at any moment</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🗑️</div>
+                            <div class="feature-title">Delete Tasks</div>
+                            <div class="feature-desc">Remove unwanted tasks with a single click</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔔</div>
+                            <div class="feature-title">Reminders</div>
+                            <div class="feature-desc">Set reminders with due dates and times for important tasks</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔍</div>
+                            <div class="feature-title">Filter Tasks</div>
+                            <div class="feature-desc">View all, active, or completed tasks with one-click filters</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💾</div>
+                            <div class="feature-title">Local Storage</div>
+                            <div class="feature-desc">Tasks are saved automatically and persist across sessions</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <div class="feature-title">Task Counter</div>
+                            <div class="feature-desc">Real-time display of remaining active tasks</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🧹</div>
+                            <div class="feature-title">Clear Completed</div>
+                            <div class="feature-desc">Bulk delete all completed tasks in one action</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-icon">🛠️</div>
+                    <h2 class="section-title">Technology Stack</h2>
+                </div>
+                <div class="section-content">
+                    <p>The Smart To-Do List is built using modern web technologies following industry best practices:</p>
+                    
+                    <div class="tech-grid">
+                        <div class="tech-card">
+                            <div class="tech-icon">🌐</div>
+                            <div class="tech-name">HTML5</div>
+                            <div class="tech-desc">Semantic markup, form inputs, and structured content</div>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon">🎨</div>
+                            <div class="tech-name">CSS3</div>
+                            <div class="tech-desc">Gradients, animations, Flexbox, Grid, and responsive design</div>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon">⚡</div>
+                            <div class="tech-name">JavaScript</div>
+                            <div class="tech-desc">DOM manipulation, LocalStorage API, event handling</div>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon">📱</div>
+                            <div class="tech-name">Responsive Design</div>
+                            <div class="tech-desc">Mobile-first approach with media queries</div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 25px;">
+                        <strong>Technical Implementation:</strong>
+                        <ul>
+                            <li><strong>Frontend:</strong> Pure vanilla JavaScript (no frameworks)</li>
+                            <li><strong>Storage:</strong> Browser LocalStorage API</li>
+                            <li><strong>Architecture:</strong> Event-driven programming model</li>
+                            <li><strong>Styling:</strong> Custom CSS with CSS3 features (no libraries)</li>
+                            <li><strong>Compatibility:</strong> Works on all modern browsers (Chrome, Firefox, Safari, Edge)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Target Audience Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-icon">👥</div>
+                    <h2 class="section-title">Target Audience</h2>
+                </div>
+                <div class="section-content">
+                    <p>
+                        The Smart To-Do List is designed for a wide range of users who need a simple yet powerful task 
+                        management solution without the complexity of enterprise tools.
+                    </p>
+
+                    <div class="two-column">
+                        <div class="column-item">
+                            <h4>Primary Audience</h4>
+                            <ul>
+                                <li>👨‍🎓 Students managing assignments and deadlines</li>
+                                <li>💼 Professionals organizing work tasks</li>
+                                <li>🏠 Individuals tracking personal goals and chores</li>
+                                <li>📝 Anyone needing quick task management</li>
+                            </ul>
+                        </div>
+                        <div class="column-item">
+                            <h4>User Characteristics</h4>
+                            <ul>
+                                <li>Age: 15-65 years</li>
+                                <li>Basic computer/smartphone skills</li>
+                                <li>Need simple, no-signup solutions</li>
+                                <li>Value privacy and local data storage</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 20px;">
+                        <strong>Use Cases:</strong>
+                        <ul>
+                            <li>📚 <strong>Students:</strong> Track assignments, exam schedules, and project deadlines</li>
+                            <li>💼 <strong>Professionals:</strong> Manage daily work tasks and meeting schedules</li>
+                            <li>🏠 <strong>Homemakers:</strong> Organize shopping lists, meal planning, and household chores</li>
+                            <li>🎯 <strong>Goal Setters:</strong> Break down goals into actionable daily tasks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-icon">📈</div>
+                    <h2 class="section-title">Results & Achievements</h2>
+                </div>
+                <div class="section-content">
+                    <p>
+                        The Smart To-Do List project has successfully achieved all its objectives and delivers a 
+                        fully functional, user-friendly task management application.
+                    </p>
+
+                    <div class="highlight-box">
+                        <strong>Project Outcomes:</strong>
+                        <ul>
+                            <li>✅ Successfully implemented all planned features</li>
+                            <li>✅ Created a responsive design that works on all devices</li>
+                            <li>✅ Achieved persistent data storage using LocalStorage</li>
+                            <li>✅ Delivered an intuitive user interface with smooth animations</li>
+                            <li>✅ Ensured cross-browser compatibility</li>
+                            <li>✅ Met all Week 6 assignment requirements</li>
+                        </ul>
+                    </div>
+
+                    <div class="screenshot-placeholder">
+                        📸 Application Screenshot<br>
+                        [Smart To-Do List Interface with Tasks and Filters]
+                    </div>
+
+                    <p><strong>Technical Achievements:</strong></p>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <span class="metric-number">9</span>
+                            <span class="metric-label">Key Features</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-number">3</span>
+                            <span class="metric-label">Core Technologies</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-number">100%</span>
+                            <span class="metric-label">Responsive</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-number">0</span>
+                            <span class="metric-label">Dependencies</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-icon">🌟</div>
+                    <h2 class="section-title">Impact & Benefits</h2>
+                </div>
+                <div class="section-content">
+                    <p>
+                        The Smart To-Do List provides significant value to users by simplifying task management and 
+                        improving productivity through an accessible web-based solution.
+                    </p>
+
+                    <div class="two-column">
+                        <div class="column-item">
+                            <h4>User Benefits</h4>
+                            <ul>
+                                <li>🎯 Improved task organization</li>
+                                <li>⏰ Better time management</li>
+                                <li>📊 Visual progress tracking</li>
+                                <li>🔒 Privacy (no account needed)</li>
+                                <li>💨 Instant access (no installation)</li>
+                                <li>📱 Works on any device</li>
+                            </ul>
+                        </div>
+                        <div class="column-item">
+                            <h4>Learning Impact</h4>
+                            <ul>
+                                <li>📚 Hands-on web development experience</li>
+                                <li>💻 Practical JavaScript skills</li>
+                                <li>🎨 UI/UX design principles</li>
+                                <li>🔧 Problem-solving abilities</li>
+                                <li>📱 Responsive design techniques</li>
+                                <li>🌐 Web API usage (LocalStorage)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 20px;">
+                        <strong>Social Impact:</strong>
+                        <p>
+                            By providing a free, privacy-focused, and accessible task management tool, this project 
+                            contributes to digital inclusion. Users don't need to create accounts, share personal data, 
+                            or pay for subscriptions, making it available to everyone regardless of their economic status.
+                        </p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <strong>Environmental Impact:</strong>
+                        <p>
+                            The application eliminates the need for paper-based to-do lists, contributing to environmental 
+                            conservation. As a lightweight web application with no server infrastructure, it also has a 
+                            minimal carbon footprint compared to complex cloud-based solutions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conclusion Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-icon">🎓</div>
+                    <h2 class="section-title">Conclusion</h2>
+                </div>
+                <div class="section-content">
+                    <p>
+                        The Smart To-Do List project successfully demonstrates the power of fundamental web technologies 
+                        in creating practical, user-friendly applications. By focusing on simplicity, functionality, and 
+                        user experience, the project delivers a valuable tool that addresses real-world needs.
+                    </p>
+
+                    <div class="highlight-box">
+                        <strong>Key Takeaways:</strong>
+                        <ul>
+                            <li>💡 Simple solutions can be highly effective</li>
+                            <li>🎨 Good design enhances user experience</li>
+                            <li>🔒 Privacy-first approach builds trust</li>
+                            <li>📱 Responsive design is essential in modern web development</li>
+                            <li>🚀 Vanilla JavaScript is powerful for small to medium projects</li>
+                        </ul>
+                    </div>
+
+                    <p style="margin-top: 20px;">
+                        This project not only fulfills the Week 4 assignment requirements but also serves as a practical 
+                        demonstration of web development skills acquired throughout the Internet and Web Basics course. 
+                        It represents a significant milestone in my journey as a web developer and showcases my ability 
+                        to design, develop, and deploy functional web applications.
+                    </p>
+
+                    <div class="highlight-box">
+                        <strong>Future Enhancements:</strong>
+                        <ul>
+                            <li>🔄 Task categories and color coding</li>
+                            <li>🌙 Dark mode support</li>
+                            <li>📤 Export/import functionality</li>
+                            <li>📊 Task statistics and analytics</li>
+                            <li>🔔 Browser notification API integration</li>
+                            <li>☁️ Optional cloud sync feature</li>
+                        </ul>
+                    </div>
+                </div>
+            </section-card>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="section-card">
+            <div class="nav-buttons">
+                <a href="../week6/index.html" class="btn">
+                    🚀 View Live Application
+                </a>
+                <a href="../../index.html" class="btn">
+                    ← Back to Portfolio
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Mini Project Presentation - Week 4 Assignment</strong></p>
+            <p>Smart To-Do List: A Modern Task Management Web Application</p>
+            <p>Developed by <strong>Emirhan Orçun Bayar</strong> | Student ID: <strong>25-657</strong></p>
+            <p>Course: Internet and Web Basics | Date: 05.11.25</p>
+        </div>
+    </div>
+</body>
+</html>
