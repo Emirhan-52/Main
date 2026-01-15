@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Student Table - Week 5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-header h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(102, 126, 234, 0.2);
+        }
+
+        .page-header .subtitle {
+            color: #764ba2;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .page-header .description {
+            color: #666;
+            font-size: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* CSS3 Features Info */
+        .features-info {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideInLeft 1s ease;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .features-info h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-badge:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-badge strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        /* Table Container */
+        .table-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            overflow-x: auto;
+            animation: fadeIn 1.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .table-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .table-header h3 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .table-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Responsive Table Styles */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            position: relative;
+            animation: slideInUp 1s ease;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* CSS3 Feature: Different Border Styles */
+        thead {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            position: relative;
+        }
+
+        thead::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            border-radius: 5px;
+        }
+
+        th {
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-right: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        /* CSS3 Feature: Tooltip on Table Headers */
+        th::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, bottom 0.3s ease;
+            z-index: 10;
+            text-transform: none;
+            letter-spacing: normal;
+            font-weight: normal;
+        }
+
+        th::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #333;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        th:hover::before,
+        th:hover::after {
+            opacity: 1;
+            bottom: calc(100% + 10px);
+        }
+
+        /* CSS3 Feature: Different Border Styles for Table Body */
+        tbody tr {
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:nth-child(odd) {
+            background: #f8f9fa;
+            border-left-color: #667eea;
+        }
+
+        tbody tr:nth-child(even) {
+            background: white;
+            border-left-color: #764ba2;
+        }
+
+        /* CSS3 Feature: Hover Animation */
+        tbody tr:hover {
+            background: linear-gradient(90deg, #667eea10, #764ba210);
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            border-left-width: 6px;
+        }
+
+        td {
+            padding: 15px;
+            color: #333;
+            font-size: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            border-right: 1px dashed #e0e0e0;
+            position: relative;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        /* CSS3 Feature: Text Styles */
+        td:first-child {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        td:nth-child(2) {
+            font-weight: 600;
+            color: #333;
+        }
+
+        td:nth-child(3) {
+            font-style: italic;
+            color: #764ba2;
+        }
+
+        td:nth-child(4) {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        td:nth-child(5) {
+            text-align: center;
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        /* CSS3 Feature: Cell Tooltip */
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+
+        .tooltip::after {
+            content: attr(data-info);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+
+        /* CSS3 Feature: Animated Icons */
+        .icon {
+            display: inline-block;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* CSS3 Feature: Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 2px 5px rgba(102, 126, 234, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Responsive Legend */
+        .responsive-legend {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .responsive-legend h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .legend-items {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .legend-desktop {
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .legend-mobile {
+            background: linear-gradient(135deg, #764ba220, #667eea20);
+            color: #764ba2;
+            border: 2px solid #764ba2;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 20px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .footer {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* Media Queries - Mobile View (2 columns) */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .table-container {
+                padding: 15px;
+            }
+
+            /* Hide table and create card layout */
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody tr {
+                margin-bottom: 20px;
+                border: 3px solid #667eea;
+                border-radius: 10px;
+                padding: 15px;
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+                animation: slideInLeft 0.5s ease;
+            }
+
+            tbody tr:hover {
+                transform: scale(1);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            }
+
+            td {
+                border: none;
+                padding: 10px 0;
+                text-align: left;
+                position: relative;
+                padding-left: 50%;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            td:last-child {
+                border-bottom: none;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 45%;
+                padding-right: 10px;
+                font-weight: bold;
+                color: #667eea;
+                text-align: left;
+            }
+
+            /* Show only 2 main columns (Number and Name) prominently */
+            td:nth-child(1),
+            td:nth-child(2) {
+                font-size: 1.1rem;
+            }
+
+            /* Other columns become smaller */
+            td:nth-child(3),
+            td:nth-child(4),
+            td:nth-child(5) {
+                font-size: 0.9rem;
+            }
+
+            .legend-mobile {
+                display: block;
+                order: -1;
+            }
+        }
+
+        /* Desktop View (All 5 columns) */
+        @media (min-width: 769px) {
+            .legend-desktop {
+                display: block;
+            }
+
+            .legend-mobile {
+                display: none;
+            }
+        }
+
+        /* Additional CSS3 Animation - Shimmer Effect */
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+
+        .shimmer {
+            animation: shimmer 3s infinite;
+            background: linear-gradient(
+                to right,
+                #f6f7f8 0%,
+                #edeef1 20%,
+                #f6f7f8 40%,
+                #f6f7f8 100%
+            );
+            background-size: 1000px 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📊 Responsive Student Table</h1>
+            <p class="subtitle">Week 5 Assignment - CSS3 Features & Media Queries</p>
+            <p class="description">
+                A fully responsive table demonstrating CSS3 features including different borders, text styles, 
+                tooltips, and animations. The table shows 5 columns on desktop and adapts to 2 columns on mobile devices.
+            </p>
+        </div>
+
+        <!-- CSS3 Features Info -->
+        <div class="features-info">
+            <h2>🎨 CSS3 Features Implemented</h2>
+            <div class="features-grid">
+                <div class="feature-badge">
+                    <strong>🔲 Border Styles</strong>
+                    <span>Solid, dashed, and gradient borders</span>
+                </div>
+                <div class="feature-badge">
+                    <strong>✍️ Text Styles</strong>
+                    <span>Bold, italic, monospace fonts</span>
+                </div>
+                <div class="feature-badge">
+                    <strong>💬 Tooltips</strong>
+                    <span>Hover tooltips on headers & cells</span>
+                </div>
+                <div class="feature-badge">
+                    <strong>🎭 Animations</strong>
+                    <span>Fade, slide, pulse effects</span>
+                </div>
+                <div class="feature-badge">
+                    <strong>🌈 Gradients</strong>
+                    <span>Linear gradients on backgrounds</span>
+                </div>
+                <div class="feature-badge">
+                    <strong>📱 Media Queries</strong>
+                    <span>Desktop (5 cols) & Mobile (2 cols)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Responsive Legend -->
+        <div class="responsive-legend">
+            <h3>📱 Responsive Behavior</h3>
+            <div class="legend-items">
+                <div class="legend-item legend-desktop">
+                    💻 Desktop: All 5 Columns Visible
+                </div>
+                <div class="legend-item legend-mobile">
+                    📱 Mobile: Card Layout (2 Main Columns)
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-container">
+            <div class="table-header">
+                <h3>Information Systems Students - 2024/2025</h3>
+                <p>Course: Internet and Web Basics</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th data-tooltip="Student sequence number">#</th>
+                        <th data-tooltip="Full name of the student">Name Surname</th>
+                        <th data-tooltip="Enrolled course name">Course</th>
+                        <th data-tooltip="Unique student identifier">Student ID</th>
+                        <th data-tooltip="Academic year">Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="#">1</td>
+                        <td data-label="Name Surname" class="tooltip" data-info="Main student">
+                            <span class="icon">👨‍💻</span>Emirhan Orçun Bayar
+                        </td>
+                        <td data-label="Course">Information Systems</td>
+                        <td data-label="Student ID">25-657</td>
+                        <td data-label="Year"><span class="status-badge">2025</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="#">2</td>
+                        <td data-label="Name Surname" class="tooltip" data-info="Computer Science student">
+                            <span class="icon">👨‍🎓</span>Ali Yılmaz
+                        </td>
+                        <td data-label="Course">Computer Science</td>
+                        <td data-label="Student ID">25-658</td>
+                        <td data-label="Year"><span class="status-badge">2025</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="#">3</td>
+                        <td data-label="Name Surname" class="tooltip" data-info="Web Development student">
+                            <span class="icon">👩‍💻</span>Ayşe Demir
+                        </td>
+                        <td data-label="Course">Web Development</td>
+                        <td data-label="Student ID">25-659</td>
+                        <td data-label="Year"><span class="status-badge">2025</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="#">4</td>
+                        <td data-label="Name Surname" class="tooltip" data-info="Information Systems student">
+                            <span class="icon">👨‍💼</span>Mehmet Kaya
+                        </td>
+                        <td data-label="Course">Information Systems</td>
+                        <td data-label="Student ID">25-660</td>
+                        <td data-label="Year"><span class="status-badge">2025</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="#">5</td>
+                        <td data-label="Name Surname" class="tooltip" data-info="Software Engineering student">
+                            <span class="icon">👩‍🔬</span>Zeynep Şahin
+                        </td>
+                        <td data-label="Course">Software Engineering</td>
+                        <td data-label="Student ID">25-661</td>
+                        <td data-label="Year"><span class="status-badge">2025</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="#">6</td>
+                        <td data-label="Name Surname" class="tooltip" data-info="Information Systems student">
+                            <span class="icon">👨‍🎨</span>Can Öztürk
+                        </td>
+                        <td data-label="Course">Information Systems</td>
+                        <td data-label="Student ID">25-662</td>
+                        <td data-label="Year"><span class="status-badge">2025</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="#">7</td>
+                        <td data-label="Name Surname" class="tooltip" data-info="Data Science student">
+                            <span class="icon">👩‍🏫</span>Elif Aydın
+                        </td>
+                        <td data-label="Course">Data Science</td>
+                        <td data-label="Student ID">25-663</td>
+                        <td data-label="Year"><span class="status-badge">2025</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="#">8</td>
+                        <td data-label="Name Surname" class="tooltip" data-info="Computer Science student">
+                            <span class="icon">👨‍🔧</span>Burak Çelik
+                        </td>
+                        <td data-label="Course">Computer Science</td>
+                        <td data-label="Student ID">25-664</td>
+                        <td data-label="Year"><span class="status-badge">2025</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="#">9</td>
+                        <td data-label="Name Surname" class="tooltip" data-info="Web Development student">
+                            <span class="icon">👩‍🎤</span>Selin Arslan
+                        </td>
+                        <td data-label="Course">Web Development</td>
+                        <td data-label="Student ID">25-665</td>
+                        <td data-label="Year"><span class="status-badge">2025</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="#">10</td>
+                        <td data-label="Name Surname" class="tooltip" data-info="Information Systems student">
+                            <span class="icon">👨‍🚀</span>Emre Yıldırım
+                        </td>
+                        <td data-label="Course">Information Systems</td>
+                        <td data-label="Student ID">25-666</td>
+                        <td data-label="Year"><span class="status-badge">2025</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                <strong>Week 5 Assignment - Responsive Table with CSS3 Features</strong><br>
+                Demonstrating different borders, text styles, tooltips, and animations<br>
+                Desktop: 5 columns | Mobile: 2 columns with card layout
+            </p>
+            <p>
+                <strong>Created by:</strong> Emirhan Orçun Bayar | <strong>Student ID:</strong> 25-657<br>
+                <strong>Course:</strong> Internet and Web Basics | <strong>Date:</strong> 26.11.25
+            </p>
+            <a href="../../index.html" class="back-btn">← Back to Portfolio</a>
+        </div>
+    </div>
+</body>
+</html>

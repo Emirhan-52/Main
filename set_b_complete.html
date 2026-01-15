@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SET B - Emirhan Orcun Bayar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .student-name {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            background: #667eea;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin: 5px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .output {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            min-height: 50px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: #27ae60;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .timer-display {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: center;
+            color: #667eea;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        #hoverButton {
+            width: 100%;
+            padding: 20px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        #hoverButton:hover {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.5);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .array-display {
+            background: #e8f4f8;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+
+            .student-name {
+                font-size: 1.2em;
+            }
+        }
+
+        .object-display {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-group input {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="student-name">👨‍💻 Emirhan Orcun Bayar</div>
+            <h1>🚀 SET B Solutions</h1>
+            <p class="subtitle">Modern Web Development Showcase - 20 Interactive Features</p>
+        </header>
+
+        <div class="grid">
+            <!-- Task 1: Reverse words in sentence -->
+            <div class="card">
+                <h3><span class="badge">1</span> Reverse Words in Sentence</h3>
+                <input type="text" id="reverseInput" placeholder="Enter a sentence (e.g., 'Hello World')">
+                <button onclick="reverseWords()">Reverse Words</button>
+                <div class="output" id="reverseOutput"></div>
+            </div>
+
+            <!-- Task 2: Extract first and last character -->
+            <div class="card">
+                <h3><span class="badge">2</span> First & Last Character</h3>
+                <input type="text" id="charInput" placeholder="Enter a string">
+                <button onclick="extractChars()">Extract Characters</button>
+                <div class="output" id="charOutput"></div>
+            </div>
+
+            <!-- Task 3: Find longest word -->
+            <div class="card">
+                <h3><span class="badge">3</span> Find Longest Word</h3>
+                <input type="text" id="longestInput" placeholder="Enter a sentence">
+                <button onclick="findLongestWord()">Find Longest</button>
+                <div class="output" id="longestOutput"></div>
+            </div>
+
+            <!-- Task 4: Title Case Conversion -->
+            <div class="card">
+                <h3><span class="badge">4</span> Convert to Title Case</h3>
+                <input type="text" id="titleInput" placeholder="enter text to convert">
+                <button onclick="toTitleCase()">Convert to Title Case</button>
+                <div class="output" id="titleOutput"></div>
+            </div>
+
+            <!-- Task 5: Replace word -->
+            <div class="card">
+                <h3><span class="badge">5</span> Replace Word in String</h3>
+                <input type="text" id="replaceOriginal" placeholder="Original sentence">
+                <input type="text" id="replaceOld" placeholder="Word to replace">
+                <input type="text" id="replaceNew" placeholder="New word">
+                <button onclick="replaceWord()">Replace Word</button>
+                <div class="output" id="replaceOutput"></div>
+            </div>
+
+            <!-- Task 6: Count vowels -->
+            <div class="card">
+                <h3><span class="badge">6</span> Count Vowels</h3>
+                <input type="text" id="vowelInput" placeholder="Enter a string">
+                <button onclick="countVowels()">Count Vowels</button>
+                <div class="output" id="vowelOutput"></div>
+            </div>
+
+            <!-- Task 7: Array from popup -->
+            <div class="card">
+                <h3><span class="badge">7</span> Create Array from Popup</h3>
+                <button onclick="createArrayFromPopup()">Enter Array Values (Popup)</button>
+                <div class="output" id="arrayPopupOutput"></div>
+            </div>
+
+            <!-- Task 8: Display third element -->
+            <div class="card">
+                <h3><span class="badge">8</span> Display Third Element</h3>
+                <input type="text" id="thirdElemInput" placeholder="Enter comma-separated values">
+                <button onclick="displayThirdElement()">Get 3rd Element</button>
+                <div class="output" id="thirdElemOutput"></div>
+            </div>
+
+            <!-- Task 9: Find index of element -->
+            <div class="card">
+                <h3><span class="badge">9</span> Find Element Index</h3>
+                <input type="text" id="indexArrayInput" placeholder="Enter comma-separated values">
+                <input type="text" id="indexSearchInput" placeholder="Element to find">
+                <button onclick="findElementIndex()">Find Index</button>
+                <div class="output" id="indexOutput"></div>
+            </div>
+
+            <!-- Task 10: Even/Odd checker -->
+            <div class="card">
+                <h3><span class="badge">10</span> Even or Odd Checker</h3>
+                <input type="number" id="evenOddInput" placeholder="Enter a number">
+                <button onclick="checkEvenOdd()">Check Even/Odd</button>
+                <div class="output" id="evenOddOutput"></div>
+            </div>
+
+            <!-- Task 11: Sum of array values -->
+            <div class="card">
+                <h3><span class="badge">11</span> Sum of Array Values</h3>
+                <input type="text" id="sumArrayInput" placeholder="Enter numbers (comma-separated)">
+                <button onclick="calculateSum()">Calculate Sum</button>
+                <div class="output" id="sumOutput"></div>
+            </div>
+
+            <!-- Task 12: 10 digits only popup -->
+            <div class="card">
+                <h3><span class="badge">12</span> 10-Digit Input Validation</h3>
+                <button onclick="tenDigitPopup()">Enter 10 Digits (Popup)</button>
+                <div class="output" id="tenDigitOutput"></div>
+            </div>
+
+            <!-- Task 13: Numeric vs String detection -->
+            <div class="card">
+                <h3><span class="badge">13</span> Numeric vs String Detection</h3>
+                <button onclick="detectInputType()">Enter Value (Popup)</button>
+                <div class="output" id="detectOutput"></div>
+            </div>
+
+            <!-- Task 14: Password validation -->
+            <div class="card">
+                <h3><span class="badge">14</span> Password Validation (Min Length)</h3>
+                <input type="password" id="passwordInput" placeholder="Enter password (min 8 chars)">
+                <button onclick="validatePassword()">Validate Password</button>
+                <div class="output" id="passwordOutput"></div>
+            </div>
+
+            <!-- Task 15: Required field validation -->
+            <div class="card">
+                <h3><span class="badge">15</span> Required Field Validation</h3>
+                <input type="text" id="requiredInput" placeholder="This field is required">
+                <button onclick="validateRequired()">Validate Field</button>
+                <div class="output" id="requiredOutput"></div>
+            </div>
+
+            <!-- Task 18: Object update and display -->
+            <div class="card">
+                <h3><span class="badge">18</span> Update and Display Object</h3>
+                <div class="info-box">Initial Object: { name: "John", age: 25, city: "Istanbul" }</div>
+                <input type="text" id="objectKey" placeholder="Property to update (e.g., age)">
+                <input type="text" id="objectValue" placeholder="New value">
+                <button onclick="updateObject()">Update Object</button>
+                <div class="output" id="objectOutput"></div>
+            </div>
+
+            <!-- Task 20: Hover effect -->
+            <div class="card">
+                <h3><span class="badge">20</span> Hover Style Change</h3>
+                <button id="hoverButton">Hover Over Me!</button>
+                <div class="info-box">Hover over the button to see the style change!</div>
+            </div>
+        </div>
+
+        <!-- Task 16 & 17: Signup form with table output -->
+        <div class="card" style="margin-bottom: 30px;">
+            <h3><span class="badge">16-17</span> Signup Form with Submit/Reset & Table Output</h3>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password *</label>
+                    <input type="password" id="signupPassword" name="password" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" name="country">
+                </div>
+                <div>
+                    <button type="submit">Submit Form</button>
+                    <button type="reset" class="btn-secondary">Reset Form</button>
+                </div>
+            </form>
+            <div id="formTableOutput"></div>
+        </div>
+
+        <!-- Task 19: Countdown timer -->
+        <div class="card" style="margin-bottom: 30px;">
+            <h3><span class="badge">19</span> Countdown Timer with Start/Pause/Reset</h3>
+            <div class="input-group">
+                <input type="number" id="timerMinutes" placeholder="Minutes" min="0" value="1">
+                <input type="number" id="timerSeconds" placeholder="Seconds" min="0" max="59" value="0">
+            </div>
+            <div class="timer-display" id="timerDisplay">01:00</div>
+            <div class="timer-controls">
+                <button onclick="startTimer()" class="btn-success">▶ Start</button>
+                <button onclick="pauseTimer()" class="btn-secondary">⏸ Pause</button>
+                <button onclick="resetTimer()">↻ Reset</button>
+            </div>
+            <div class="output" id="timerStatus"></div>
+        </div>
+    </div>
+
+    <script>
+        // Task 1: Reverse words in sentence
+        function reverseWords() {
+            const input = document.getElementById('reverseInput').value;
+            const reversed = input.split(' ').reverse().join(' ');
+            document.getElementById('reverseOutput').innerHTML = `<strong>Original:</strong> ${input}<br><strong>Reversed:</strong> ${reversed}`;
+        }
+
+        // Task 2: Extract first and last character
+        function extractChars() {
+            const input = document.getElementById('charInput').value;
+            if (input.length === 0) {
+                document.getElementById('charOutput').innerHTML = '<span class="error">Please enter a string!</span>';
+                return;
+            }
+            const first = input[0];
+            const last = input[input.length - 1];
+            document.getElementById('charOutput').innerHTML = `<strong>First char:</strong> ${first}<br><strong>Last char:</strong> ${last}`;
+        }
+
+        // Task 3: Find longest word
+        function findLongestWord() {
+            const input = document.getElementById('longestInput').value;
+            const words = input.split(' ');
+            let longest = '';
+            for (let word of words) {
+                if (word.length > longest.length) {
+                    longest = word;
+                }
+            }
+            document.getElementById('longestOutput').innerHTML = `<strong>Longest word:</strong> ${longest} (${longest.length} characters)`;
+        }
+
+        // Task 4: Convert to Title Case
+        function toTitleCase() {
+            const input = document.getElementById('titleInput').value;
+            const titleCase = input.split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ');
+            document.getElementById('titleOutput').innerHTML = `<strong>Original:</strong> ${input}<br><strong>Title Case:</strong> ${titleCase}`;
+        }
+
+        // Task 5: Replace word in string
+        function replaceWord() {
+            const original = document.getElementById('replaceOriginal').value;
+            const oldWord = document.getElementById('replaceOld').value;
+            const newWord = document.getElementById('replaceNew').value;
+            const result = original.replace(new RegExp(oldWord, 'gi'), newWord);
+            document.getElementById('replaceOutput').innerHTML = `<strong>Original:</strong> ${original}<br><strong>Result:</strong> ${result}`;
+        }
+
+        // Task 6: Count vowels
+        function countVowels() {
+            const input = document.getElementById('vowelInput').value;
+            const vowels = input.match(/[aeiouAEIOU]/g);
+            const count = vowels ? vowels.length : 0;
+            document.getElementById('vowelOutput').innerHTML = `<strong>Vowels found:</strong> ${count}<br><strong>Vowels:</strong> ${vowels ? vowels.join(', ') : 'None'}`;
+        }
+
+        // Task 7: Create array from popup
+        function createArrayFromPopup() {
+            const input = prompt("Enter comma-separated values for the array:");
+            if (input) {
+                const arr = input.split(',').map(item => item.trim());
+                document.getElementById('arrayPopupOutput').innerHTML = `<strong>Array created:</strong><div class="array-display">[${arr.map(item => `"${item}"`).join(', ')}]</div><strong>Length:</strong> ${arr.length}`;
+            }
+        }
+
+        // Task 8: Display third element
+        function displayThirdElement() {
+            const input = document.getElementById('thirdElemInput').value;
+            const arr = input.split(',').map(item => item.trim());
+            if (arr.length >= 3) {
+                document.getElementById('thirdElemOutput').innerHTML = `<strong>Array:</strong> [${arr.join(', ')}]<br><strong>3rd Element (index 2):</strong> ${arr[2]}`;
+            } else {
+                document.getElementById('thirdElemOutput').innerHTML = '<span class="error">Array must have at least 3 elements!</span>';
+            }
+        }
+
+        // Task 9: Find index of element
+        function findElementIndex() {
+            const arrInput = document.getElementById('indexArrayInput').value;
+            const searchTerm = document.getElementById('indexSearchInput').value;
+            const arr = arrInput.split(',').map(item => item.trim());
+            const index = arr.indexOf(searchTerm);
+            if (index !== -1) {
+                document.getElementById('indexOutput').innerHTML = `<strong>Element "${searchTerm}" found at index:</strong> ${index}`;
+            } else {
+                document.getElementById('indexOutput').innerHTML = `<span class="error">Element "${searchTerm}" not found in array!</span>`;
+            }
+        }
+
+        // Task 10: Check even or odd
+        function checkEvenOdd() {
+            const num = parseInt(document.getElementById('evenOddInput').value);
+            if (isNaN(num)) {
+                document.getElementById('evenOddOutput').innerHTML = '<span class="error">Please enter a valid number!</span>';
+                return;
+            }
+            const result = isEvenOrOdd(num);
+            document.getElementById('evenOddOutput').innerHTML = `<strong>${num}</strong> is <strong>${result}</strong>`;
+        }
+
+        function isEvenOrOdd(num) {
+            return num % 2 === 0 ? 'EVEN' : 'ODD';
+        }
+
+        // Task 11: Sum of array values
+        function calculateSum() {
+            const input = document.getElementById('sumArrayInput').value;
+            const arr = input.split(',').map(item => parseFloat(item.trim()));
+            if (arr.some(isNaN)) {
+                document.getElementById('sumOutput').innerHTML = '<span class="error">Please enter valid numbers!</span>';
+                return;
+            }
+            const sum = sumArray(arr);
+            document.getElementById('sumOutput').innerHTML = `<strong>Array:</strong> [${arr.join(', ')}]<br><strong>Sum:</strong> ${sum}`;
+        }
+
+        function sumArray(arr) {
+            return arr.reduce((acc, curr) => acc + curr, 0);
+        }
+
+        // Task 12: 10 digits only popup
+        function tenDigitPopup() {
+            let input;
+            do {
+                input = prompt("Enter exactly 10 digits (e.g., phone number):");
+                if (input === null) {
+                    document.getElementById('tenDigitOutput').innerHTML = '<span class="error">Input cancelled</span>';
+                    return;
+                }
+                if (!/^\d{10}$/.test(input)) {
+                    alert("Invalid! Please enter exactly 10 digits.");
+                }
+            } while (!/^\d{10}$/.test(input));
+            
+            document.getElementById('tenDigitOutput').innerHTML = `<span class="success">✓ Valid 10-digit input:</span><br><strong>${input}</strong>`;
+        }
+
+        // Task 13: Detect numeric vs string
+        function detectInputType() {
+            const input = prompt("Enter a value (number or text):");
+            if (input === null) {
+                document.getElementById('detectOutput').innerHTML = '<span class="error">Input cancelled</span>';
+                return;
+            }
+            
+            let output = '';
+            if (!isNaN(input) && input.trim() !== '') {
+                const num = parseFloat(input);
+                output = `<strong>Type:</strong> NUMERIC<br><strong>Value:</strong> ${num}<br><strong>Operations:</strong><br>`;
+                output += `- Double: ${num * 2}<br>`;
+                output += `- Square: ${num * num}<br>`;
+                output += `- Half: ${num / 2}`;
+            } else {
+                output = `<strong>Type:</strong> STRING<br><strong>Value:</strong> "${input}"<br><strong>Operations:</strong><br>`;
+                output += `- Length: ${input.length}<br>`;
+                output += `- Uppercase: ${input.toUpperCase()}<br>`;
+                output += `- Reversed: ${input.split('').reverse().join('')}`;
+            }
+            document.getElementById('detectOutput').innerHTML = output;
+        }
+
+        // Task 14: Password validation
+        function validatePassword() {
+            const password = document.getElementById('passwordInput').value;
+            const minLength = 8;
+            if (password.length < minLength) {
+                document.getElementById('passwordOutput').innerHTML = `<span class="error">❌ Password too short! Minimum ${minLength} characters required. Current: ${password.length}</span>`;
+            } else {
+                document.getElementById('passwordOutput').innerHTML = `<span class="success">✓ Password is valid! Length: ${password.length} characters</span>`;
+            }
+        }
+
+        // Task 15: Required field validation
+        function validateRequired() {
+            const value = document.getElementById('requiredInput').value.trim();
+            if (value === '') {
+                document.getElementById('requiredOutput').innerHTML = '<span class="error">❌ This field is required and cannot be empty!</span>';
+            } else {
+                document.getElementById('requiredOutput').innerHTML = `<span class="success">✓ Field is valid! Value: "${value}"</span>`;
+            }
+        }
+
+        // Task 16-17: Signup form with table output
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                'Full Name': document.getElementById('fullName').value,
+                'Email': document.getElementById('email').value,
+                'Phone': document.getElementById('phone').value || 'Not provided',
+                'Password': '●'.repeat(document.getElementById('signupPassword').value.length),
+                'Country': document.getElementById('country').value || 'Not provided'
+            };
+
+            let tableHTML = '<h4 style="margin-top: 20px; color: #27ae60;">✓ Form Submitted Successfully!</h4>';
+            tableHTML += '<table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>';
+            
+            for (let [key, value] of Object.entries(formData)) {
+                tableHTML += `<tr><td>${key}</td><td>${value}</td></tr>`;
+            }
+            
+            tableHTML += '</tbody></table>';
+            document.getElementById('formTableOutput').innerHTML = tableHTML;
+        });
+
+        // Task 18: Object update and display
+        let myObject = {
+            name: "John",
+            age: 25,
+            city: "Istanbul"
+        };
+
+        function updateObject() {
+            const key = document.getElementById('objectKey').value;
+            const value = document.getElementById('objectValue').value;
+            
+            if (!key || !value) {
+                document.getElementById('objectOutput').innerHTML = '<span class="error">Please enter both property name and value!</span>';
+                return;
+            }
+
+            const oldValue = myObject[key];
+            myObject[key] = isNaN(value) ? value : parseFloat(value);
+            
+            let output = '<strong>Object Updated!</strong><br><br>';
+            if (oldValue !== undefined) {
+                output += `<strong>Changed:</strong> ${key}: "${oldValue}" → "${myObject[key]}"<br><br>`;
+            } else {
+                output += `<strong>Added:</strong> ${key}: "${myObject[key]}"<br><br>`;
+            }
+            output += '<strong>Current Object:</strong><div class="object-display">' + JSON.stringify(myObject, null, 2) + '</div>';
+            
+            document.getElementById('objectOutput').innerHTML = output;
+        }
+
+        // Task 19: Countdown timer with setInterval
+        let timerInterval = null;
+        let totalSeconds = 60;
+        let isPaused = false;
+
+        function startTimer() {
+            if (timerInterval) {
+                document.getElementById('timerStatus').innerHTML = '<span class="error">Timer is already running!</span>';
+                return;
+            }
+
+            if (!isPaused) {
+                const minutes = parseInt(document.getElementById('timerMinutes').value) || 0;
+                const seconds = parseInt(document.getElementById('timerSeconds').value) || 0;
+                totalSeconds = minutes * 60 + seconds;
+            }
+
+            isPaused = false;
+            document.getElementById('timerStatus').innerHTML = '<span class="success">⏱ Timer started!</span>';
+
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    document.getElementById('timerStatus').innerHTML = '<span class="success">🎉 Timer completed!</span>';
+                    document.getElementById('timerDisplay').innerHTML = '00:00';
+                    return;
+                }
+
+                totalSeconds--;
+                const mins = Math.floor(totalSeconds / 60);
+                const secs = totalSeconds % 60;
+                document.getElementById('timerDisplay').innerHTML = 
+                    `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                isPaused = true;
+                document.getElementById('timerStatus').innerHTML = '<span class="error">⏸ Timer paused</span>';
+            } else {
+                document.getElementById('timerStatus').innerHTML = '<span class="error">No timer is running!</span>';
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            isPaused = false;
+            const minutes = parseInt(document.getElementById('timerMinutes').value) || 0;
+            const seconds = parseInt(document.getElementById('timerSeconds').value) || 0;
+            totalSeconds = minutes * 60 + seconds;
+            const mins = Math.floor(totalSeconds / 60);
+            const secs = totalSeconds % 60;
+            document.getElementById('timerDisplay').innerHTML = 
+                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            document.getElementById('timerStatus').innerHTML = '<span class="success">↻ Timer reset</span>';
+        }
+
+        // Initialize timer display
+        window.onload = function() {
+            resetTimer();
+        };
+    </script>
+</body>
+</html>
